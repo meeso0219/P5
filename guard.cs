@@ -26,13 +26,31 @@ namespace P5
         {
             int smallestPrimeNumber = int.MaxValue;
             //int smallestNumber = array[0];
-            for (int i = 1; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] < smallestPrimeNumber && isPrime(array[i]))
                     smallestPrimeNumber = array[i]; 
             }
-            
+            // if there is no prime number, return -1 for error response
+            if (smallestPrimeNumber == int.MaxValue) return -1;
+
             return smallestPrimeNumber;
+        }
+
+        private int findLargestPrime(int[] array)
+        {
+            int largestPrimeNumber = int.MinValue;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] > largestPrimeNumber && isPrime(array[i]))
+                    largestPrimeNumber = array[i]; 
+            }
+            // if there is no prime number, return -1 for error response
+            if (largestPrimeNumber == int.MinValue) return -1;
+
+
+            return largestPrimeNumber;
         }
 
         // check if the number is prime or not
