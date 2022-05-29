@@ -18,7 +18,14 @@
  * 
  *  Revision History:   Constructor check if client passes is null reference. (5/22/2022)
  *                      Added error response if z < 1 (5/22/2022)
- *                      Now any return multiple of three from array x and array y.
+ *                      Now any return multiple of three from array x and array y. (5/23/2022)
+
+    Revision History (P5) : 1. dataExtractor’s minimum length is dependent (in some manner)
+                                on the value of the last odd number of its encapsulated sequence. (5/29/2022)
+                            2. minX and minY changed to readonly for efficiency. (5/29/2022)
+                            3. Changed formula for minX and minY (5/29/2022)
+
+
  */
 
 using System;
@@ -27,25 +34,28 @@ namespace P5
 {
     public partial class dataExtractor
     {
-        private int minX;
-        private int minY;
+        private readonly int minX;
+        private readonly int minY;
         private const int defaultMin = 5;
         private bool state;
         protected int[] arrX;
         protected int[] arrY;
 
-        // PRECONDITION: Injected array x should be larger than minX
+        // PRECONDITION: Injected array x should be larger than minX and not a null reference.
         // POSTCONDITION: array x's state become false if array size is smaller than minX
         //                array x's state become false if it continas same values.
         //                array x's state become true if it is valid
         public dataExtractor(int[] x)
         {
             if (x == null)
-                throw new InvalidOperationException("x is null reference");
+                throw new InvalidOperationException("x is null reference"); // TODO: 생성자 DI는 에러못던짐
             
             arrX = x;
-            minX = defaultMin + arrX[(arrX.Length - 5) % 10]; 
-            minY = arrX.Length / 2; 
+            int lastOddNumber = lastOdd(arrX); // if there is no odd number, the return value will be -1
+            //minX = defaultMin + arrX[(arrX.Length - 5) % 10];
+            //minY = arrX.Length / 2;
+            minX = (lastOddNumber % 10) + defaultMin;
+            minY = (lastOddNumber % 10) + (minX % 10);
             arrY = new int[minY]; 
                                   
             for (int i = 0; i < minY; i++)
@@ -210,6 +220,21 @@ namespace P5
                 }
             }
             return true;
+        }
+
+
+        private int lastOdd(int[] tempArray) // TODO: Test this
+        {
+            int lastOddnum = -1; // if there are no odd number in array, it will return -1 for error responding
+            for (int i = tempArray.Length; i-- > 0;)
+            {
+                if ((tempArray[i] % 2) != 0)
+                {
+                    lastOddnum = tempArray[i];
+                    return lastOddnum;
+                }
+            }
+            return lastOddnum;
         }
     }
 }
