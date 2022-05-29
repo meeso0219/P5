@@ -7,6 +7,7 @@ namespace P5
         protected bool mode; // mode used in guard and quirkyGuard
         public guard(int[] x)
         {
+            
             mode = true;
             arrS = x;
         }
@@ -17,9 +18,17 @@ namespace P5
         {
             if (mode) // true for up
             {
-
+                int smallestPrimeNumber = findSmallestPrime(arrS);
+                if (x < smallestPrimeNumber) return smallestPrimeNumber;
+                // x is not valid integer since it is larger than smallestPrimeNumber
+                else return -1; 
             }
-            return -1; // error response
+            else // false for down
+            {
+                int largestPrimeNumber = findLargestPrime(arrS);
+                if (x >= largestPrimeNumber) return largestPrimeNumber;
+                else return -1; // x is not valid integer
+            }
         }
 
         private int findSmallestPrime(int[] array)
