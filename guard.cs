@@ -24,7 +24,15 @@ namespace P5
 
         private int findSmallestPrime(int[] array)
         {
-            return 0;
+            int smallestPrimeNumber = int.MaxValue;
+            //int smallestNumber = array[0];
+            for (int i = 1; i < array.Length; i++)
+            {
+                if (array[i] < smallestPrimeNumber && isPrime(array[i]))
+                    smallestPrimeNumber = array[i]; 
+            }
+            
+            return smallestPrimeNumber;
         }
 
         // check if the number is prime or not
